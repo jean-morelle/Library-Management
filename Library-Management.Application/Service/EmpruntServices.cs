@@ -3,7 +3,7 @@ using Library_Management.Repertory;
 
 namespace Library_Management.Service
 {
-    public class EmpruntServices :IEmpruntServices
+    public class EmpruntServices : IEmpruntServices
     {
         private readonly IEmpruntRepertory _empruntRepertory;
 
@@ -39,5 +39,12 @@ namespace Library_Management.Service
         {
             _empruntRepertory.update(emprunt);
         }
+    }
+}
+
+namespace Library_Management.Application
+{
+    public class UtilisateurRepertory
+    {
     }
 }

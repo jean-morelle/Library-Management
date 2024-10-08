@@ -1,6 +1,5 @@
 ﻿using Library_Management.Data;
 using Library_Management.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Library_Management.Repertory
 {
@@ -16,7 +15,7 @@ namespace Library_Management.Repertory
         public void Create(Utilisateur utilisateur)
         {
             _context.Utilisateurs.Add(utilisateur);
-            _context.SaveChanges();
+            _context.Utilisateurs.SaveChanges();
         }
 
         public void Delete(int UtilisateurId)
@@ -25,7 +24,7 @@ namespace Library_Management.Repertory
             if (utilisateur != null)
             {
                 _context.Utilisateurs.Remove(utilisateur);
-                _context.SaveChanges();
+                _context.Utilisateurs.SaveChanges();
             }
         }
 
@@ -42,7 +41,7 @@ namespace Library_Management.Repertory
         public void Update(Utilisateur utilisateur)
         {
             _context.Utilisateurs.Update(utilisateur);
-            _context.SaveChanges();
+            _context.Utilisateurs.SaveChanges();
         }
     }
 }

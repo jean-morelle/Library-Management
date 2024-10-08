@@ -15,13 +15,13 @@ namespace Library_Management.Repertory
         public void create(Livre Livres)
         {
             _context.Livre.Add(Livres);
-            _context.SaveChanges();
+            _context.Livre.SaveChanges();
         }
 
         public void Delete(int id)
         {
              _context.Livre.Remove(GetLivreId(id));
-            _context.SaveChanges();
+            _context.Livre.SaveChanges();
         }
 
         public Livre GetLivreId(int id)

@@ -1,10 +1,9 @@
 ﻿using Library_Management.Data;
 using Library_Management.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Library_Management.Repertory
 {
-    public class EmpruntRepertory:IEmpruntRepertory
+    public class EmpruntRepertory : IEmpruntRepertory
     {
         private readonly ApplicationDbContext _Context;
 
@@ -16,13 +15,13 @@ namespace Library_Management.Repertory
         public void create(Emprunt emprunt)
         {
              _Context.Emprunts.Add(emprunt);
-            _Context.SaveChanges();
+             _Context.Emprunts.SaveChanges();
         }
 
         public void delete(int emprunt)
         {
             _Context.Emprunts.Remove(GetEmpruntId(emprunt));
-            _Context.SaveChanges();
+            _Context.Emprunts.SaveChanges();    
         }
 
         public IEnumerable<Emprunt> Emprunts()
@@ -38,7 +37,8 @@ namespace Library_Management.Repertory
         public void update(Emprunt emprunt)
         {
             _Context.Emprunts.Update(emprunt);
-            _Context.SaveChanges();
+            _Context.Emprunts.savechange();
         }
     }
 }
+
