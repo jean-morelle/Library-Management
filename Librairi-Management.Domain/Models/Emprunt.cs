@@ -2,15 +2,12 @@
 {
     public class Emprunt
     {
-        public int Id { get; set; }
-        public DateTime? Date_D_Empreinte { get; set; }
-
-        public DateTime? Date_De_Retour { get; set; }
-        
-        public int UtilisateurId { get; set; }
-
-        public Utilisateur utilisateur { get; set; }
-
-       //public ICollection<EmpruntLivre> EmpruntLivre { get; set; }
+        public int IdEmprunt { get; set; }
+        public DateTime DateEmprunt { get; set; }
+        public DateTime DateRetour { get; set; }
+        public int IdUtilisateur { get; set; }
+        public Utilisateur Utilisateur { get; set; }
+        public int IdLivre { get; set; }
+        public Livre Livre { get; set; }
     }
 }
