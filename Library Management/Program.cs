@@ -1,9 +1,10 @@
 
-using Library_Management.Application;
-using Library_Management.Infrastructure;
+
+//using Library_Management.Data;
 using Library_Management.Repertory;
 using Library_Management.Service;
 using Microsoft.EntityFrameworkCore;
+//using UtilisateurRepertory = Library_Management.Application.UtilisateurRepertory;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -13,11 +14,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<Library_Management.Data.ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped < IUtilisateurRepertory,UtilisateurRepertory>();
+builder.Services.AddScoped <IUtilisateurRepertory,Library_Management.Repertory.UtilisateurRepertory>();
 builder.Services.AddScoped<IUtilisateurService,UtilisateurService>();
-builder.Services.AddScoped<IEmpruntRepertory,EmpruntRepertory>();
+builder.Services.AddScoped<IEmpruntRepertory,Library_Management.Repertory.EmpruntRepertory>();
 builder.Services.AddScoped<IEmpruntServices,EmpruntServices>();
 builder.Services.AddScoped<ILivreRepertory, LivreRepertory>();
 builder.Services.AddScoped<ILivreService,LivreService>();

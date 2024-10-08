@@ -15,7 +15,7 @@ namespace Library_Management.Repertory
         public void Create(Utilisateur utilisateur)
         {
             _context.Utilisateurs.Add(utilisateur);
-            _context.Utilisateurs.SaveChanges();
+            _context.SaveChanges();
         }
 
         public void Delete(int UtilisateurId)
@@ -24,7 +24,7 @@ namespace Library_Management.Repertory
             if (utilisateur != null)
             {
                 _context.Utilisateurs.Remove(utilisateur);
-                _context.Utilisateurs.SaveChanges();
+                _context.SaveChanges();
             }
         }
 
@@ -41,7 +41,7 @@ namespace Library_Management.Repertory
         public void Update(Utilisateur utilisateur)
         {
             _context.Utilisateurs.Update(utilisateur);
-            _context.Utilisateurs.SaveChanges();
+            _context.SaveChanges();
         }
     }
 }

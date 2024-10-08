@@ -15,13 +15,13 @@ namespace Library_Management.Repertory
         public void create(Emprunt emprunt)
         {
              _Context.Emprunts.Add(emprunt);
-             _Context.Emprunts.SaveChanges();
+             _Context.SaveChanges();
         }
 
         public void delete(int emprunt)
         {
             _Context.Emprunts.Remove(GetEmpruntId(emprunt));
-            _Context.Emprunts.SaveChanges();    
+            _Context.SaveChanges();    
         }
 
         public IEnumerable<Emprunt> Emprunts()
@@ -37,7 +37,7 @@ namespace Library_Management.Repertory
         public void update(Emprunt emprunt)
         {
             _Context.Emprunts.Update(emprunt);
-            _Context.Emprunts.savechange();
+            _Context.SaveChanges();
         }
     }
 }
