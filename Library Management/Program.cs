@@ -16,6 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<Library_Management.Data.ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllersWithViews();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped <IUtilisateurRepertory,Library_Management.Repertory.UtilisateurRepertory>();
 builder.Services.AddScoped<IUtilisateurService,UtilisateurService>();
 builder.Services.AddScoped<IEmpruntRepertory,Library_Management.Repertory.EmpruntRepertory>();

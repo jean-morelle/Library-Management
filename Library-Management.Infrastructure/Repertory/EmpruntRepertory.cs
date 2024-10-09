@@ -1,5 +1,6 @@
 ﻿using Library_Management.Data;
 using Library_Management.Models;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Library_Management.Repertory
 {
@@ -12,29 +13,31 @@ namespace Library_Management.Repertory
                 _Context =context;
         }
 
-        public void create(Emprunt emprunt)
+        public void Create(Emprunt emprunt)
         {
              _Context.Emprunts.Add(emprunt);
              _Context.SaveChanges();
         }
 
-        public void delete(int emprunt)
+        public void Delete(int empruntId)
         {
-            _Context.Emprunts.Remove(GetEmpruntId(emprunt));
+            _Context.Emprunts.Remove(GetEmprunt(empruntId));
             _Context.SaveChanges();    
         }
 
-        public IEnumerable<Emprunt> Emprunts()
+        public IEnumerable<Emprunt>GetEmprunts()
         {
-            return _Context.Emprunts.ToList();
+            var emprunt = _Context.Emprunts.ToList();
+            return emprunt;
         }
 
-        public Emprunt GetEmpruntId(int id)
+        public Emprunt GetEmprunt(int id)
         {
-            return _Context.Emprunts.Find(id);
+           var  emprunt = _Context.Emprunts.First(x => x.LivreId ==id);
+            return emprunt;
         }
 
-        public void update(Emprunt emprunt)
+        public void Update(Emprunt emprunt)
         {
             _Context.Emprunts.Update(emprunt);
             _Context.SaveChanges();

@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LibraryManagement.Migrations
+namespace LibraryManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240327223500_changement_de_migration")]
-    partial class changementdemigration
+    [Migration("20241009115904_Update database")]
+    partial class Updatedatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,22 +27,27 @@ namespace LibraryManagement.Migrations
 
             modelBuilder.Entity("Library_Management.Models.Emprunt", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("EmpruntId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmpruntId"));
 
-                    b.Property<DateTime?>("Date_D_Empreinte")
+                    b.Property<DateTime>("DateEmprunt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("Date_De_Retour")
+                    b.Property<DateTime>("DateRetour")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("LivreId")
+                        .HasColumnType("int");
 
                     b.Property<int>("UtilisateurId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("EmpruntId");
+
+                    b.HasIndex("LivreId");
 
                     b.HasIndex("UtilisateurId");
 
@@ -51,44 +56,38 @@ namespace LibraryManagement.Migrations
 
             modelBuilder.Entity("Library_Management.Models.Livre", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("LivreId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LivreId"));
 
-                    b.Property<DateTime?>("Annee_De_Publication")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Nom_Auteur")
+                    b.Property<string>("Auteur")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("ISBN")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Titre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Livre");
+                    b.HasKey("LivreId");
+
+                    b.ToTable("Livres");
                 });
 
             modelBuilder.Entity("Library_Management.Models.Utilisateur", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UtilisateurId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UtilisateurId"));
 
-                    b.Property<DateTime?>("DateCreationCompte")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Gmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Mot_De_Passe")
+                    b.Property<string>("Adresse")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -96,20 +95,38 @@ namespace LibraryManagement.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UtilisateurId");
 
                     b.ToTable("Utilisateurs");
                 });
 
             modelBuilder.Entity("Library_Management.Models.Emprunt", b =>
                 {
-                    b.HasOne("Library_Management.Models.Utilisateur", "utilisateur")
-                        .WithMany()
+                    b.HasOne("Library_Management.Models.Livre", "Livre")
+                        .WithMany("Emprunts")
+                        .HasForeignKey("LivreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Library_Management.Models.Utilisateur", "Utilisateur")
+                        .WithMany("Emprunts")
                         .HasForeignKey("UtilisateurId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("utilisateur");
+                    b.Navigation("Livre");
+
+                    b.Navigation("Utilisateur");
+                });
+
+            modelBuilder.Entity("Library_Management.Models.Livre", b =>
+                {
+                    b.Navigation("Emprunts");
+                });
+
+            modelBuilder.Entity("Library_Management.Models.Utilisateur", b =>
+                {
+                    b.Navigation("Emprunts");
                 });
 #pragma warning restore 612, 618
         }

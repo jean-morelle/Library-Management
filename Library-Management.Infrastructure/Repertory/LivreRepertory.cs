@@ -14,29 +14,29 @@ namespace Library_Management.Repertory
 
         public void create(Livre Livres)
         {
-            _context.Livre.Add(Livres);
+            _context.Livres.Add(Livres);
             _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-             _context.Livre.Remove(GetLivreId(id));
+             _context.Livres.Remove(GetLivreId(id));
             _context.SaveChanges();
         }
 
         public Livre GetLivreId(int id)
         {
-            return _context.Livre.Find(id);
+            return _context.Livres.Find(id);
         }
 
         public IEnumerable<Livre> Livres()
         {
-            return _context.Livre.ToList();
+            return _context.Livres.ToList();
         }
 
         public void Update(Livre Livres)
         {
-            _context.Livre.Update(Livres);
+            _context.Livres.Update(Livres);
             _context.SaveChanges();
         }
     }

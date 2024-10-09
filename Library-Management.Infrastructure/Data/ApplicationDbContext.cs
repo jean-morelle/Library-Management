@@ -1,6 +1,5 @@
 ﻿using Library_Management.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.Xml;
 
 namespace Library_Management.Data
 {
@@ -24,7 +23,7 @@ namespace Library_Management.Data
         //}
 
         public DbSet<Utilisateur> Utilisateurs { get; set; }
-        public DbSet<Livre> Livre { get; set; }
+        public DbSet<Livre> Livres { get; set; }
         public DbSet<Emprunt> Emprunts { get; set; }
 
    

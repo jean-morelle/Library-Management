@@ -39,7 +39,7 @@ namespace Library_Management.Controler
         public IActionResult Post(Emprunt emprunt)
         {
             _empruntServices.create(emprunt);
-            return CreatedAtAction(nameof(GetByIdEmprunt), new { id = emprunt.Id }, emprunt);
+            return CreatedAtAction(nameof(GetByIdEmprunt), new { id = emprunt.EmpruntId }, emprunt);
         }
         [HttpDelete]
         public IActionResult Remove(int id)
@@ -56,7 +56,7 @@ namespace Library_Management.Controler
         [HttpPut]
         public IActionResult put(int id,Emprunt emprunt)
         {
-            if(id != emprunt.Id)
+            if(id != emprunt.EmpruntId)
             {
                 BadRequest();
             }

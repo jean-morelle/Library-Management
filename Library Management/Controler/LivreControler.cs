@@ -1,4 +1,5 @@
-﻿using Library_Management.Models;
+﻿using AutoMapper;
+using Library_Management.Models;
 using Library_Management.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,14 +11,17 @@ namespace Library_Management.Controler
     public class LivreControler : ControllerBase
     {
         private readonly ILivreService _LivreService;
+        private readonly IMapper mapper;
 
-        public LivreControler(ILivreService LivreService)
-        {
+        public LivreControler(ILivreService LivreService,IMapper mapper)
+        { 
             _LivreService = LivreService;
+            this.mapper = mapper;
         }
         [HttpGet]
         public IActionResult All()
         {
+           // var livreModel = mapper.Map<Livre>(new Livre());
             var GetLivreAll = _LivreService.Livres().ToList();
             return Ok(GetLivreAll);
         }
@@ -36,7 +40,7 @@ namespace Library_Management.Controler
         public ActionResult<Livre> Post(Livre livre)
         {
             _LivreService.create(livre);
-            return CreatedAtAction(nameof(GetById), new { id = livre.Id }, livre);
+            return CreatedAtAction(nameof(GetById), new { id = livre.LivreId }, livre);
         }
         [HttpDelete("{id}")]
 
@@ -55,7 +59,7 @@ namespace Library_Management.Controler
         [HttpPut("{id}")]
         public IActionResult Put(int id, Livre livre)
         {
-            if (id != livre.Id)
+            if (id != livre.LivreId)
                 return BadRequest();
 
             _LivreService.update(livre);

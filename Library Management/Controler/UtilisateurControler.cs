@@ -43,7 +43,7 @@ namespace Library_Management.Controler
         public IActionResult Post(Utilisateur utilisateur)
         {
             _utilisateurService.Create(utilisateur);
-            return CreatedAtAction(nameof(GetById),new {id = utilisateur.Id},utilisateur);
+            return CreatedAtAction(nameof(GetById),new {id = utilisateur.UtilisateurId},utilisateur);
         }
 
         [HttpDelete("{id}")]
@@ -64,7 +64,7 @@ namespace Library_Management.Controler
         [HttpPut("{id}")]
         public IActionResult Put(int id, Utilisateur utilisateur)
         {
-            if (id != utilisateur.Id)
+            if (id != utilisateur.UtilisateurId)
                 return BadRequest();
 
             _utilisateurService.Update(utilisateur);

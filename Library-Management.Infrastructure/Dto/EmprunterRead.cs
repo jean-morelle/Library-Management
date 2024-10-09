@@ -1,6 +1,13 @@
-﻿namespace Library_Management.Models
+﻿using Library_Management.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Library_Management.Infrastructure.Dto
 {
-    public class Emprunt
+    public class EmprunterRead
     {
         public int EmpruntId { get; set; }
         public DateTime DateEmprunt { get; set; }

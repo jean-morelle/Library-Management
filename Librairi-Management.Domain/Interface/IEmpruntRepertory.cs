@@ -4,14 +4,14 @@ namespace Library_Management.Repertory
 {
     public interface IEmpruntRepertory
     {
-        IEnumerable<Emprunt> Emprunts();
+        IEnumerable<Emprunt> GetEmprunts();
 
-        public Emprunt GetEmpruntId(int id);
+        public Emprunt GetEmprunt(int id);
 
-        public void create(Emprunt emprunt);
+        public void Create(Emprunt emprunt);
 
-        public void delete(int emprunt);
+        public void Delete(int emprunt);
 
-        public void update (Emprunt emprunt);
+        public void Update (Emprunt emprunt);
     }
 }
