@@ -12,7 +12,7 @@ namespace Library_Management.Repertory
             _context = context;
         }
 
-        public void create(Livre Livres)
+        public void Create(Livre Livres)
         {
             _context.Livres.Add(Livres);
             _context.SaveChanges();
@@ -20,16 +20,16 @@ namespace Library_Management.Repertory
 
         public void Delete(int id)
         {
-             _context.Livres.Remove(GetLivreId(id));
+             _context.Livres.Remove(GetLivre(id));
             _context.SaveChanges();
         }
 
-        public Livre GetLivreId(int id)
+        public Livre GetLivre(int id)
         {
-            return _context.Livres.Find(id);
+            return _context.Livres.First(x => x.LivreId == id);
         }
 
-        public IEnumerable<Livre> Livres()
+        public IEnumerable<Livre> GetLivres()
         {
             return _context.Livres.ToList();
         }

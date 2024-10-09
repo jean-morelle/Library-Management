@@ -12,39 +12,33 @@ namespace Library_Management.Service
             _empruntRepertory = empruntRepertory;
         }
 
-        public void create(Emprunt emprunt)
+        public void Create(Emprunt emprunt)
         {
-            _empruntRepertory.create(emprunt);
+            _empruntRepertory.Create(emprunt);
             
         }
 
-        public void delete(int emprund)
+        public void Delete(int emprund)
         {
-            _empruntRepertory.delete(emprund);
+            _empruntRepertory.Delete(emprund);
         }
 
       
 
-        public Emprunt GetEmpruntId(int empruntId)
+        public Emprunt GetEmprunt(int empruntId)
         {
-            return _empruntRepertory.GetEmpruntId(empruntId);
+            return _empruntRepertory.GetEmprunt(empruntId);
         }
 
         public IEnumerable<Emprunt> GetEmprunts()
         {
-            return _empruntRepertory.Emprunts();
+            return _empruntRepertory.GetEmprunts();
         }
 
-        public void update(Emprunt emprunt)
+        public void Update(Emprunt emprunt)
         {
-            _empruntRepertory.update(emprunt);
+            _empruntRepertory.Update(emprunt);
         }
     }
 }
 
-//namespace Library_Management.Application
-//{
-//    public class UtilisateurRepertory
-//    {
-//    }
-//}

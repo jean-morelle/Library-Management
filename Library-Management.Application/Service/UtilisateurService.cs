@@ -23,9 +23,9 @@ namespace Library_Management.Service
             _utilisateurRepertory.Delete(UtilisateurId);
         }
 
-        public Utilisateur GetUtilisateurById(int UtilisateurId)
+        public Utilisateur GetUtilisateur(int UtilisateurId)
         {
-            return _utilisateurRepertory.GetUtilisateurById(UtilisateurId);
+            return _utilisateurRepertory.GetUtilisateur(UtilisateurId);
         }
 
         public IEnumerable<Utilisateur> GetUtilisateurs()

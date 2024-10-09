@@ -5,7 +5,7 @@ namespace Library_Management.Repertory
     public interface IUtilisateurRepertory
     {
         IEnumerable<Utilisateur> GetUtilisateurs();
-        public Utilisateur GetUtilisateurById( int UtilisateurId);
+        public Utilisateur GetUtilisateur( int UtilisateurId);
 
         public void Create(Utilisateur utilisateur);
 

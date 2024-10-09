@@ -6,13 +6,13 @@ namespace Library_Management.Service
     {
         IEnumerable<Emprunt> GetEmprunts();
 
-        public Emprunt GetEmpruntId(int empruntId);
+        public Emprunt GetEmprunt(int empruntId);
 
-        public void create(Emprunt emprunt);
+        public void Create(Emprunt emprunt);
 
-        public void delete(int emprund);
+        public void Delete(int emprund);
 
-        public void update(Emprunt emprunt);
+        public void Update(Emprunt emprunt);
    
     }
 }

@@ -12,27 +12,27 @@ namespace Library_Management.Service
             _livreRepertory = livreRepertory;
         }
 
-        public void create(Livre livre)
+        public void Create(Livre livre)
         {
-            _livreRepertory.create(livre);
+            _livreRepertory.Create(livre);
         }
 
-        public void delete(int id)
+        public void Delete(int id)
         {
             _livreRepertory.Delete(id);
         }
 
-        public Livre GetLivreId(int id)
+        public Livre GetLivre(int id)
         {
-            return _livreRepertory.GetLivreId(id);
+            return _livreRepertory.GetLivre(id);
         }
 
-        public IEnumerable<Livre> Livres()
+        public IEnumerable<Livre> GetLivres()
         {
-            return _livreRepertory.Livres();
+            return _livreRepertory.GetLivres();
         }
 
-        public void update(Livre livre)
+        public void Update(Livre livre)
         {
             _livreRepertory.Update(livre);
         }

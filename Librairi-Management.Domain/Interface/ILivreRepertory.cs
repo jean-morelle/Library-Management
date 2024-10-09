@@ -4,11 +4,11 @@ namespace Library_Management.Repertory
 {
     public interface ILivreRepertory
     {
-        IEnumerable<Livre> Livres();
+        IEnumerable<Livre>GetLivres();
 
-        public Livre GetLivreId(int id);
+        public Livre GetLivre(int id);
 
-        public void create(Livre Livres);
+        public void Create(Livre Livres);
 
         public void Delete(int id);
 

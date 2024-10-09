@@ -28,9 +28,9 @@ namespace Library_Management.Repertory
             }
         }
 
-        public Utilisateur GetUtilisateurById(int UtilisateurId)
+        public Utilisateur GetUtilisateur(int utilisateurId)
         {
-            return _context.Utilisateurs.Find(UtilisateurId);
+            return _context.Utilisateurs.First(x => x.UtilisateurId ==utilisateurId );
         }
 
         public IEnumerable<Utilisateur> GetUtilisateurs()

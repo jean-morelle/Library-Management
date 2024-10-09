@@ -7,11 +7,11 @@ namespace Library_Management.Controler
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UtilisateurControler : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly IUtilisateurService _utilisateurService;
 
-        public UtilisateurControler(IUtilisateurService utilisateurService)
+        public UserController(IUtilisateurService utilisateurService)
         {
             _utilisateurService = utilisateurService;
         }
@@ -24,9 +24,9 @@ namespace Library_Management.Controler
         }
 
         [HttpGet("{Id}")]
-        public IActionResult GetById(int UtilisateurId) {
+        public IActionResult GetUtilisateur(int UtilisateurId) {
 
-            var utilisateur = _utilisateurService.GetUtilisateurById(UtilisateurId);
+            var utilisateur = _utilisateurService.GetUtilisateur(UtilisateurId);
             
             if(utilisateur is null)
             {
@@ -43,14 +43,14 @@ namespace Library_Management.Controler
         public IActionResult Post(Utilisateur utilisateur)
         {
             _utilisateurService.Create(utilisateur);
-            return CreatedAtAction(nameof(GetById),new {id = utilisateur.UtilisateurId},utilisateur);
+            return CreatedAtAction(nameof(GetUtilisateur),new {id = utilisateur.UtilisateurId},utilisateur);
         }
 
         [HttpDelete("{id}")]
 
         public IActionResult Delete (int utilisateurId)
         {
-            var DeleteUtilisateur = _utilisateurService.GetUtilisateurById(utilisateurId);
+            var DeleteUtilisateur = _utilisateurService.GetUtilisateur(utilisateurId);
 
             if(DeleteUtilisateur is null)
             {

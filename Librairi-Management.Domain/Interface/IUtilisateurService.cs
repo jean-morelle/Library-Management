@@ -6,7 +6,7 @@ namespace Library_Management.Service
     {
         IEnumerable<Utilisateur> GetUtilisateurs();
 
-        public Utilisateur GetUtilisateurById(int UtilisateurId);
+        public Utilisateur GetUtilisateur(int UtilisateurId);
 
         public void Create(Utilisateur utilisateur);
 

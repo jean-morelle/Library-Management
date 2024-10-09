@@ -4,14 +4,14 @@ namespace Library_Management.Service
 {
     public interface ILivreService
     {
-        IEnumerable<Livre> Livres();
+        IEnumerable<Livre>GetLivres();
 
-        public Livre GetLivreId(int id);
+        public Livre GetLivre(int id);
 
-        public void create(Livre livre);
+        public void Create(Livre livre);
 
-        public void update(Livre livre);
+        public void Update(Livre livre);
 
-        public void delete(int id);
+        public void Delete(int id);
     }
 }

@@ -8,11 +8,11 @@ namespace Library_Management.Controler
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmpruntControler : ControllerBase
+    public class EmpruntController : ControllerBase
     {
         private readonly IEmpruntServices _empruntServices;
 
-        public EmpruntControler(IEmpruntServices empruntServices)
+        public EmpruntController(IEmpruntServices empruntServices)
         {
             _empruntServices = empruntServices;
         }
@@ -25,9 +25,9 @@ namespace Library_Management.Controler
 
         [HttpGet("{id}")]
 
-        public IActionResult GetByIdEmprunt(int id)
+        public IActionResult GetEmprunt(int id)
         {
-            var GetId =_empruntServices.GetEmpruntId(id);
+            var GetId =_empruntServices.GetEmprunt(id);
             if(GetId is null)
             {
                 NotFound(GetId);
@@ -38,18 +38,18 @@ namespace Library_Management.Controler
         [HttpPost]
         public IActionResult Post(Emprunt emprunt)
         {
-            _empruntServices.create(emprunt);
-            return CreatedAtAction(nameof(GetByIdEmprunt), new { id = emprunt.EmpruntId }, emprunt);
+            _empruntServices.Create(emprunt);
+            return CreatedAtAction(nameof(GetEmprunt), new { id = emprunt.EmpruntId }, emprunt);
         }
         [HttpDelete]
         public IActionResult Remove(int id)
         {
-            var RemoveEmprunt = _empruntServices.GetEmpruntId(id);
+            var RemoveEmprunt = _empruntServices.GetEmprunt(id);
             if (RemoveEmprunt is null)
             {
                 NotFound(RemoveEmprunt);
             }
-            _empruntServices.delete(id);
+            _empruntServices.Delete(id);
             return NoContent();
             
         }
@@ -60,7 +60,7 @@ namespace Library_Management.Controler
             {
                 BadRequest();
             }
-            _empruntServices.update(emprunt);
+            _empruntServices.Update(emprunt);
             return NoContent();
         }
     }
