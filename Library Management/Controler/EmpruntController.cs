@@ -1,4 +1,6 @@
-﻿using Library_Management.Models;
+﻿using AutoMapper;
+using Library_Management.Infrastructure.Dto;
+using Library_Management.Models;
 using Library_Management.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,38 +13,41 @@ namespace Library_Management.Controler
     public class EmpruntController : ControllerBase
     {
         private readonly IEmpruntServices _empruntServices;
+        private readonly IMapper mapper;
 
-        public EmpruntController(IEmpruntServices empruntServices)
+        public EmpruntController(IEmpruntServices empruntServices, IMapper mapper)
         {
             _empruntServices = empruntServices;
+            this.mapper = mapper;
         }
         [HttpGet]
         public IActionResult GetAll() { 
         
-           var GetEmprunt =_empruntServices.GetEmprunts().ToList();
-            return Ok(GetEmprunt);
+           var emprunts =_empruntServices.GetEmprunts().ToList();
+            return Ok(emprunts);
         }
 
         [HttpGet("{id}")]
 
         public IActionResult GetEmprunt(int id)
         {
-            var GetId =_empruntServices.GetEmprunt(id);
-            if(GetId is null)
+            var emprunt =_empruntServices.GetEmprunt(id);
+            if(emprunt is null)
             {
-                NotFound(GetId);
+                NotFound();
             }
-            return Ok(GetId);
+            return Ok(emprunt);
         }
 
         [HttpPost]
-        public IActionResult Post(Emprunt emprunt)
+        public IActionResult AddEmprunt(EmpruntToAdd emprunt)
         {
-            _empruntServices.Create(emprunt);
-            return CreatedAtAction(nameof(GetEmprunt), new { id = emprunt.EmpruntId }, emprunt);
+            var empruntModel = mapper.Map<Emprunt>(emprunt);
+            _empruntServices.Create(empruntModel);
+            return CreatedAtAction(nameof(GetEmprunt), new { id = empruntModel.EmpruntId }, empruntModel        );
         }
         [HttpDelete]
-        public IActionResult Remove(int id)
+        public IActionResult DeleteEmprunt(int id)
         {
             var RemoveEmprunt = _empruntServices.GetEmprunt(id);
             if (RemoveEmprunt is null)
@@ -54,7 +59,7 @@ namespace Library_Management.Controler
             
         }
         [HttpPut]
-        public IActionResult put(int id,Emprunt emprunt)
+        public IActionResult UpdateEmprunt(int id,Emprunt emprunt)
         {
             if(id != emprunt.EmpruntId)
             {

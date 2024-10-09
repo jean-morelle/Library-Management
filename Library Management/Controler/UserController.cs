@@ -1,4 +1,6 @@
-﻿using Library_Management.Models;
+﻿using AutoMapper;
+using Library_Management.Infrastructure.Dto;
+using Library_Management.Models;
 using Library_Management.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,16 +12,18 @@ namespace Library_Management.Controler
     public class UserController : ControllerBase
     {
         private readonly IUtilisateurService _utilisateurService;
+        private readonly IMapper mapper;
 
-        public UserController(IUtilisateurService utilisateurService)
+        public UserController(IUtilisateurService utilisateurService, IMapper mapper)
         {
             _utilisateurService = utilisateurService;
+            this.mapper = mapper;
         }
         [HttpGet]
         public IActionResult GetAll() {
 
-            var GetUilisateur = _utilisateurService.GetUtilisateurs().ToList();
-            return Ok(GetUilisateur);
+            var utilisateurs = _utilisateurService.GetUtilisateurs().ToList();
+            return Ok(utilisateurs);
 
         }
 
@@ -40,21 +44,22 @@ namespace Library_Management.Controler
 
         [HttpPost]
 
-        public IActionResult Post(Utilisateur utilisateur)
+        public IActionResult AddUser(UserToAdd utilisateur)
         {
-            _utilisateurService.Create(utilisateur);
-            return CreatedAtAction(nameof(GetUtilisateur),new {id = utilisateur.UtilisateurId},utilisateur);
+            var user = mapper.Map<Utilisateur>(utilisateur);
+            _utilisateurService.Create(user);
+            return CreatedAtAction(nameof(GetUtilisateur),new {id = user.UtilisateurId},user);
         }
 
         [HttpDelete("{id}")]
 
-        public IActionResult Delete (int utilisateurId)
+        public IActionResult DeleteUser (int utilisateurId)
         {
-            var DeleteUtilisateur = _utilisateurService.GetUtilisateur(utilisateurId);
+            var utilisateur = _utilisateurService.GetUtilisateur(utilisateurId);
 
-            if(DeleteUtilisateur is null)
+            if(utilisateur is null)
             {
-                NotFound(DeleteUtilisateur);
+                NotFound(utilisateur);
             }
             _utilisateurService.Delete(utilisateurId);
             return NoContent();
@@ -62,7 +67,7 @@ namespace Library_Management.Controler
 
         }
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Utilisateur utilisateur)
+        public IActionResult UpdateUser(int id, Utilisateur utilisateur)
         {
             if (id != utilisateur.UtilisateurId)
                 return BadRequest();

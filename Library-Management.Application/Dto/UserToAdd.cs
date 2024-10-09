@@ -11,6 +11,6 @@ namespace Library_Management.Infrastructure.Dto
     {
         public string Nom { get; set; }
         public string Adresse { get; set; }
-        public List<Emprunt> Emprunts { get; set; } = new List<Emprunt>();
+       
     }
 }

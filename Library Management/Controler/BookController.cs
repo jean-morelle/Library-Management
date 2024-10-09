@@ -59,20 +59,22 @@ namespace Library_Management.Controler
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateBook(int id, BookToAdd livre)
+        public IActionResult UpdateBook(int id, BookToUpdate livre)
         {
-            var getlivre = _LivreService.GetLivre(id);
+          
 
-            if (getlivre is null)
+            if (id!=livre.LivreId)
             {
-                return NotFound();
+                return BadRequest();
             }
 
+            var bookModel = mapper.Map<Livre>(livre);
             // Mise à jour des propriétés de getlivre avec celles de livre
-            mapper.Map(livre, getlivre);
 
-            _LivreService.Update(getlivre);
-            return NoContent();
+
+            _LivreService.Update(bookModel);
+
+            return Ok(livre);
         }
 
     }
