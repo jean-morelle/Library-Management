@@ -59,13 +59,15 @@ namespace Library_Management.Controler
             
         }
         [HttpPut]
-        public IActionResult UpdateEmprunt(int id,Emprunt emprunt)
+        public IActionResult UpdateEmprunt(int id,EmpruntToUpdate emprunt)
         {
             if(id != emprunt.EmpruntId)
             {
                 BadRequest();
             }
-            _empruntServices.Update(emprunt);
+            var emprundModel = mapper.Map<Emprunt>(emprunt);
+
+            _empruntServices.Update(emprundModel);
             return NoContent();
         }
     }

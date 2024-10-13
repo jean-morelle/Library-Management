@@ -67,12 +67,13 @@ namespace Library_Management.Controler
 
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(int id, Utilisateur utilisateur)
+        public IActionResult UpdateUser(int id, UserToUpdate utilisateur)
         {
             if (id != utilisateur.UtilisateurId)
                 return BadRequest();
 
-            _utilisateurService.Update(utilisateur);
+            var userModel = mapper.Map<Utilisateur>(utilisateur);
+            _utilisateurService.Update(userModel);
             return NoContent();
         }
     }
