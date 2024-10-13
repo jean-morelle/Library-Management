@@ -74,7 +74,7 @@ namespace Library_Management.Controler
 
             _LivreService.Update(bookModel);
 
-            return Ok(livre);
+            return Ok(bookModel);
         }
 
     }
