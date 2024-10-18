@@ -16,7 +16,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library-Manager.Core", "Library-Manager.Core\Library-Manager.Core.csproj", "{425DABC0-F025-4D4A-B21B-3FD29566C1BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library-Manager.Core", "Library-Manager.Core\Library-Manager.Core.csproj", "{425DABC0-F025-4D4A-B21B-3FD29566C1BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library-Management", "Library-Management\Library-Management.csproj", "{E9D02FB6-67F1-4C09-9724-407BC50AF0FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{425DABC0-F025-4D4A-B21B-3FD29566C1BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{425DABC0-F025-4D4A-B21B-3FD29566C1BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{425DABC0-F025-4D4A-B21B-3FD29566C1BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9D02FB6-67F1-4C09-9724-407BC50AF0FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9D02FB6-67F1-4C09-9724-407BC50AF0FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9D02FB6-67F1-4C09-9724-407BC50AF0FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9D02FB6-67F1-4C09-9724-407BC50AF0FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

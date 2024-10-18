@@ -26,6 +26,9 @@ namespace Library_Management.Infrastructure.AutoMapper
 
             CreateMap<UserToUpdate, Utilisateur>();
 
+            CreateMap<UserToAdd, Utilisateur>();
+
+            CreateMap<Utilisateur,UserToAdd>();
             CreateMap<EmprunterRead, Emprunt>();
 
             CreateMap<Emprunt, EmprunterRead>();
