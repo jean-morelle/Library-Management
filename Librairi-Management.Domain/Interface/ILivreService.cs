@@ -4,14 +4,10 @@ namespace Library_Management.Service
 {
     public interface ILivreService
     {
-        IEnumerable<Livre>GetLivres();
-
-        public Livre GetLivre(int id);
-
-        public void Create(Livre livre);
-
-        public void Update(Livre livre);
-
-        public void Delete(int id);
+        Task<IEnumerable<Livre>> ObtenirLesLivresAsync();
+        Task<Livre> ObtenirLivreParIdAsync(Guid Id);
+        Task AjouterLivreAsync(Livre Livre);
+        Task SupprimerLivreAsync(Guid Id);
+        Task MettreAjoursLivreAsync(Livre livre);
     }
 }

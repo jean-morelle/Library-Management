@@ -4,14 +4,10 @@ namespace Library_Management.Repertory
 {
     public interface ILivreRepertory
     {
-        IEnumerable<Livre>GetLivres();
-
-        public Livre GetLivre(int id);
-
-        public void Create(Livre Livres);
-
-        public void Delete(int id);
-
-        public void Update(Livre Livres);
+        Task<IEnumerable<Livre>> ObtenirLesLivresAsync();
+        Task<Livre>ObtenirLivreParIdAsync(Guid Id);
+        Task AjouterLivreAsync(Livre Livre);
+        Task SupprimerLivreAsync(Guid Id);
+        Task MettreAjoursLivreAsync(Livre livre);
     }
 }

@@ -1,43 +1,60 @@
-﻿using Library_Management.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Library_Management.Data;
 using Library_Management.Models;
+using Library_Management.Repertory;
+using Microsoft.EntityFrameworkCore;
 
-namespace Library_Management.Repertory
+namespace Library_Management.Infrastructure.Repertory
 {
-    public class LivreRepertory :ILivreRepertory
+    public class LivreRepertory:ILivreRepertory
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext applicationDbContext;
 
-        public LivreRepertory(ApplicationDbContext context)
+        public LivreRepertory(ApplicationDbContext applicationDbContext)
         {
-            _context = context;
+            this.applicationDbContext = applicationDbContext;
         }
 
-        public void Create(Livre Livres)
+        public async Task AjouterLivreAsync(Livre Livre)
         {
-            _context.Livres.Add(Livres);
-            _context.SaveChanges();
+            applicationDbContext.Livres.Add(Livre);
+            await applicationDbContext.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task MettreAjoursLivreAsync(Livre livre)
         {
-             _context.Livres.Remove(GetLivre(id));
-            _context.SaveChanges();
+            applicationDbContext.Livres.Update(livre);
+            await applicationDbContext.SaveChangesAsync();
         }
 
-        public Livre GetLivre(int id)
+        public async Task<IEnumerable<Livre>> ObtenirLesLivresAsync()
         {
-            return _context.Livres.First(x => x.LivreId == id);
+            var livres = await applicationDbContext.Livres.ToListAsync();
+            return livres;
         }
 
-        public IEnumerable<Livre> GetLivres()
+        public Task<Livre> ObtenirLivreParIdAsync(Guid Id)
         {
-            return _context.Livres.ToList();
+            var livre = applicationDbContext.Livres.FirstOrDefaultAsync(l => l.Id == Id);
+            return livre;
         }
 
-        public void Update(Livre Livres)
+        public async Task SupprimerLivreAsync(Guid id)
         {
-            _context.Livres.Update(Livres);
-            _context.SaveChanges();
+            var livre = await applicationDbContext.Livres.FirstOrDefaultAsync(l => l.Id == id);
+
+            if (livre == null)
+            {
+                throw new KeyNotFoundException("Livre non trouvé");
+            }
+
+            applicationDbContext.Livres.Remove(livre);
+            await applicationDbContext.SaveChangesAsync();
         }
+
     }
 }

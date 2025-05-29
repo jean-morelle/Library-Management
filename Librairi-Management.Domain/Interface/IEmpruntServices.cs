@@ -4,15 +4,15 @@ namespace Library_Management.Service
 {
     public interface IEmpruntServices
     {
-        IEnumerable<Emprunt> GetEmprunts();
+        Task<IEnumerable<Emprunt>> ObtenirLesLivresEmpruntersAsync();
 
-        public Emprunt GetEmprunt(int empruntId);
+        Task<Emprunt> ObtenirLivreEmprunterParIdAsync(Guid Id);
 
-        public void Create(Emprunt emprunt);
+        Task LivreEmprunters(Emprunt Emprunt);
 
-        public void Delete(int emprund);
+        Task MettreAjoursLesLivresEprunterAsync(Emprunt emprunt);
 
-        public void Update(Emprunt emprunt);
-   
+        Task SupprimerLesLivresEmprunters(Guid Id);
+
     }
 }

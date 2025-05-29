@@ -1,4 +1,5 @@
-﻿using Library_Management.Models;
+﻿using Librairi_Management.Domain.Models;
+using Library_Management.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library_Management.Data
@@ -8,24 +9,22 @@ namespace Library_Management.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext>options):base(options)
         {
         }
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<EmpruntLivre>()
-        //    .HasOne(p => p.Livre)
-        //    .WithMany(p1 => p1.EmpruntLivre)
-        //    .HasForeignKey(p2 => p2.LivreId);
-
-        //    modelBuilder.Entity<EmpruntLivre>()
-        //   .HasOne(p => p.Emprunt)
-        //   .WithMany(p1 => p1.EmpruntLivre)
-        //   .HasForeignKey(p2 => p2.EmpruntId);
-
-        //}
-
-        public DbSet<Utilisateur> Utilisateurs { get; set; }
         public DbSet<Livre> Livres { get; set; }
         public DbSet<Emprunt> Emprunts { get; set; }
+        public DbSet<Client>Clients { get; set; }
+        public DbSet<Utilisateur>Utilisateurs { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Emprunt>()
+                .HasOne(e => e.Livre)
+                  .WithMany(e => e.Emprunts)
+                  .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Emprunt>()
+                .HasOne(x=>x.Client)
+                .WithMany(x=>x.emprunts)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+        }
 
-   
     }
 }

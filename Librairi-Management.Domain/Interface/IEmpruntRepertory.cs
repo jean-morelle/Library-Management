@@ -4,14 +4,14 @@ namespace Library_Management.Repertory
 {
     public interface IEmpruntRepertory
     {
-        IEnumerable<Emprunt> GetEmprunts();
+        Task<IEnumerable<Emprunt>> ObtenirLesLivresEmpruntersAsync();
 
-        public Emprunt GetEmprunt(int id);
+        Task<Emprunt>ObtenirLivreEmprunterParIdAsync(Guid Id);
 
-        public void Create(Emprunt emprunt);
+        Task LivreEmprunters(Emprunt Emprunt);
 
-        public void Delete(int emprunt);
+        Task MettreAjoursLesLivresEprunterAsync(Emprunt emprunt);
 
-        public void Update (Emprunt emprunt);
+        Task SupprimerLesLivresEmprunters(Guid Id);
     }
 }

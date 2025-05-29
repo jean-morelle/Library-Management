@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241009115904_Update database")]
-    partial class Updatedatabase
+    [Migration("20250529120300_Create")]
+    partial class Create
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,69 +25,13 @@ namespace LibraryManagement.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Library_Management.Models.Emprunt", b =>
+            modelBuilder.Entity("Librairi_Management.Domain.Models.Client", b =>
                 {
-                    b.Property<int>("EmpruntId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmpruntId"));
-
-                    b.Property<DateTime>("DateEmprunt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateRetour")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("LivreId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UtilisateurId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EmpruntId");
-
-                    b.HasIndex("LivreId");
-
-                    b.HasIndex("UtilisateurId");
-
-                    b.ToTable("Emprunts");
-                });
-
-            modelBuilder.Entity("Library_Management.Models.Livre", b =>
-                {
-                    b.Property<int>("LivreId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LivreId"));
-
-                    b.Property<string>("Auteur")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ISBN")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Titre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("LivreId");
-
-                    b.ToTable("Livres");
-                });
-
-            modelBuilder.Entity("Library_Management.Models.Utilisateur", b =>
-                {
-                    b.Property<int>("UtilisateurId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UtilisateurId"));
-
-                    b.Property<string>("Adresse")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -95,36 +39,90 @@ namespace LibraryManagement.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UtilisateurId");
+                    b.Property<string>("Quartier")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Utilisateurs");
+                    b.HasKey("Id");
+
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("Library_Management.Models.Emprunt", b =>
                 {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateEmprunt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateRetour")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("LivreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("LivreId");
+
+                    b.ToTable("Emprunts");
+                });
+
+            modelBuilder.Entity("Library_Management.Models.Livre", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Auteur")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Genre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Titre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Livres");
+                });
+
+            modelBuilder.Entity("Library_Management.Models.Emprunt", b =>
+                {
+                    b.HasOne("Librairi_Management.Domain.Models.Client", "Client")
+                        .WithMany("emprunts")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Library_Management.Models.Livre", "Livre")
                         .WithMany("Emprunts")
                         .HasForeignKey("LivreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Library_Management.Models.Utilisateur", "Utilisateur")
-                        .WithMany("Emprunts")
-                        .HasForeignKey("UtilisateurId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Client");
 
                     b.Navigation("Livre");
+                });
 
-                    b.Navigation("Utilisateur");
+            modelBuilder.Entity("Librairi_Management.Domain.Models.Client", b =>
+                {
+                    b.Navigation("emprunts");
                 });
 
             modelBuilder.Entity("Library_Management.Models.Livre", b =>
-                {
-                    b.Navigation("Emprunts");
-                });
-
-            modelBuilder.Entity("Library_Management.Models.Utilisateur", b =>
                 {
                     b.Navigation("Emprunts");
                 });

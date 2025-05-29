@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Librairi-Management.Domain\Library-Management.Domain.csproj" />
+    <ProjectReference Include="..\Library-Management.Infrastructure\Library-Management.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

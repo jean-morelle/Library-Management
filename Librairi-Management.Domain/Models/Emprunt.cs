@@ -1,13 +1,15 @@
-﻿namespace Library_Management.Models
+﻿using Librairi_Management.Domain.Models;
+
+namespace Library_Management.Models
 {
     public class Emprunt
     {
-        public int EmpruntId { get; set; }
+        public Guid Id { get; set; }
         public DateTime DateEmprunt { get; set; }
         public DateTime DateRetour { get; set; }
-        public int UtilisateurId { get; set; }
-        public Utilisateur Utilisateur { get; set; }
-        public int LivreId { get; set; }
-        public Livre Livre { get; set; }
+        public Guid LivreId { get; set; }
+        public Livre Livre { get; set; } 
+        public Guid ClientId { get; set; }
+        public Client Client { get; set; }
     }
 }
