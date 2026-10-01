@@ -1,4 +1,4 @@
-﻿using Library_Management.Application.AutoMapper.Dto;
+using Library_Management.Application.AutoMapper.Dto;
 using Library_Management.Models;
 
 namespace Library_Management.Extension
@@ -7,42 +7,36 @@ namespace Library_Management.Extension
     {
         public static IEnumerable<LivreReadDto> ConvertToDto(this IEnumerable<Livre> livres)
         {
-            var result = from livre in livres
-                         select new LivreReadDto
-                         {
-                             Id = livre.Id,
-                             Auteur = livre.Auteur,
-                             Titre = livre.Titre,
-                             Genre = livre.Genre
-                         };
-            return result;
+            return livres.Select(livre => livre.ConvertTo());
         }
-        public static LivreReadDto ConvertTo(this Livre livres)
+
+        public static LivreReadDto ConvertTo(this Livre livre)
         {
             return new LivreReadDto
             {
-                Id = livres.Id,
-                Titre = livres.Titre,
-                Auteur = livres.Auteur,
-                Genre = livres.Genre
+                Id = livre.Id,
+                Titre = livre.Titre,
+                Auteur = livre.Auteur,
+                Genre = livre.Genre,
+                Disponible = livre.Emprunts.All(e => e.EstRendu)
             };
         }
+
         public static Livre ConvertToAdd( this AddLivreDto addLivreDto)
         {
             return new Livre
             {
-             Titre=addLivreDto.Titre,
-            Auteur =addLivreDto.Auteur,
-            Genre =addLivreDto.Genre
-
+                Titre = addLivreDto.Titre.Trim(),
+                Auteur = addLivreDto.Auteur.Trim(),
+                Genre = addLivreDto.Genre.Trim()
             };
         }
+
         public static void UpdateLivre(this Livre livre,UpdateLivreDTO updateLivreDTO)
         {
-            livre.Id = updateLivreDTO.Id;
-            livre.Auteur =updateLivreDTO.Auteur;
-            livre.Titre = updateLivreDTO.Titre;
-            livre.Genre=updateLivreDTO.Genre;   
+            livre.Titre = updateLivreDTO.Titre.Trim();
+            livre.Auteur = updateLivreDTO.Auteur.Trim();
+            livre.Genre = updateLivreDTO.Genre.Trim();
         }
     }
 }

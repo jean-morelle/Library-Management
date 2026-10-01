@@ -1,8 +1,6 @@
-﻿using Librairi_Management.Domain.Interface;
 using Library_Management.Application.AutoMapper.Dto;
 using Library_Management.Extension;
 using Library_Management.Service;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library_Management.Controler
@@ -12,75 +10,72 @@ namespace Library_Management.Controler
     public class LivreEmprunterController : ControllerBase
     {
         private readonly IEmpruntServices empruntServices;
-        private readonly ILivreService livreService;
-        private readonly IClientServices clientServices;
 
-        public LivreEmprunterController(IEmpruntServices empruntServices,ILivreService livreService,IClientServices clientServices)
+        public LivreEmprunterController(IEmpruntServices empruntServices)
         {
             this.empruntServices = empruntServices;
-            this.livreService = livreService;
-            this.clientServices = clientServices;
         }
+
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<IEnumerable<LivreEmpruntReadDto>>> GetAll()
         {
-            var livreEmprunter = await empruntServices.ObtenirLesLivresEmpruntersAsync();
-            var livre = await livreService.ObtenirLesLivresAsync();
-            var client = await clientServices.ObtenirTousLesClients();
-            var EmpruntDtos = client.ConvertToDto(livre,livreEmprunter);
-            return Ok(EmpruntDtos);
-            
+            var emprunts = await empruntServices.ObtenirLesLivresEmpruntersAsync();
+            return Ok(emprunts.ConvertToDto());
         }
+
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<ActionResult<LivreEmpruntReadDto>> GetById(Guid id)
         {
-            var livreEmprunter = await empruntServices.ObtenirLivreEmprunterParIdAsync(id);
-            var livre = await livreService.ObtenirLivreParIdAsync(id);
-            var client = await clientServices.ObtenirClientParId(id);
-
-            if (livreEmprunter == null || livre == null || client == null)
+            var emprunt = await empruntServices.ObtenirLivreEmprunterParIdAsync(id);
+            if (emprunt is null)
             {
-                return NotFound("Données introuvables.");
+                return NotFound("Emprunt non trouvé.");
             }
-
-            var empruntDto = client.ConvertTo(livre, livreEmprunter);
-            return Ok(empruntDto);
+            return Ok(emprunt.ConvertTo());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddLivreEmpruntDto addLivreEmpruntDto)
+        public async Task<ActionResult<LivreEmpruntReadDto>> Add(AddLivreEmpruntDto addLivreEmpruntDto)
         {
-            var livreEmprunter = addLivreEmpruntDto.ConverToAdd();
-            await empruntServices.LivreEmprunters(livreEmprunter);
-            return CreatedAtAction(nameof(GetById), new {id =livreEmprunter.Id } ,livreEmprunter);
+            var emprunt = addLivreEmpruntDto.ConverToAdd();
+            await empruntServices.LivreEmprunters(emprunt);
+
+            var cree = await empruntServices.ObtenirLivreEmprunterParIdAsync(emprunt.Id);
+            return CreatedAtAction(nameof(GetById), new { id = emprunt.Id }, cree!.ConvertTo());
         }
-        [HttpPut("Id")]
-        public async Task<IActionResult>UpdateLivreEmprunter(Guid id,UpdateLivreEmpruntDto updateLivreEmpruntDto)
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateLivreEmprunter(Guid id, UpdateLivreEmpruntDto updateLivreEmpruntDto)
         {
-            var livreEmprunter = await empruntServices.ObtenirLivreEmprunterParIdAsync(id);
-            if(livreEmprunter is null)
+            var emprunt = await empruntServices.ObtenirLivreEmprunterParIdAsync(id);
+            if (emprunt is null)
             {
-                throw new Exception();
+                return NotFound("Emprunt non trouvé.");
             }
-            else
-            {
-                livreEmprunter.Update(updateLivreEmpruntDto);
-                await empruntServices.MettreAjoursLesLivresEprunterAsync(livreEmprunter);
-            }
+
+            emprunt.Update(updateLivreEmpruntDto);
+            await empruntServices.MettreAjoursLesLivresEprunterAsync(emprunt);
             return NoContent();
         }
-        [HttpDelete]
+
+        // Marque le livre comme rendu (date de retour effective = maintenant)
+        [HttpPut("{id}/retour")]
+        public async Task<IActionResult> Retourner(Guid id)
+        {
+            await empruntServices.RetournerLivreAsync(id);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteById(Guid id)
         {
-            var livreEmprunter = await empruntServices.ObtenirLivreEmprunterParIdAsync(id);
-            if(livreEmprunter is null)
+            var emprunt = await empruntServices.ObtenirLivreEmprunterParIdAsync(id);
+            if (emprunt is null)
             {
-                NotFound();
+                return NotFound("Emprunt non trouvé.");
             }
-            else
-            {
-                await empruntServices.SupprimerLesLivresEmprunters(id);
-            }
+
+            await empruntServices.SupprimerLesLivresEmprunters(id);
             return NoContent();
         }
     }

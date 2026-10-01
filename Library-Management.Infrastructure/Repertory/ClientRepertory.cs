@@ -1,8 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Librairi_Management.Domain.Interface;
 using Librairi_Management.Domain.Models;
 using Library_Management.Data;
@@ -31,30 +26,26 @@ namespace Library_Management.Infrastructure.Repertory
             await applicationDbContext.SaveChangesAsync();
         }
 
-        public async Task<Client> ObtenirClientParId(Guid Id)
+        public async Task<Client?> ObtenirClientParId(Guid Id)
         {
-            var client = await applicationDbContext.Clients.FirstOrDefaultAsync(x=>x.Id == Id);
-            return client;
+            return await applicationDbContext.Clients.FirstOrDefaultAsync(x => x.Id == Id);
         }
 
         public async Task<IEnumerable<Client>> ObtenirTousLesClients()
         {
-            var client = await applicationDbContext.Clients.ToListAsync();
-            return client;
+            return await applicationDbContext.Clients.OrderBy(c => c.Nom).ToListAsync();
         }
 
         public async Task SupprimerClientAsync(Guid Id)
         {
             var client = await applicationDbContext.Clients.FirstOrDefaultAsync(x => x.Id == Id);
-            if(client is null)
+            if (client is null)
             {
-                throw new Exception();
+                throw new KeyNotFoundException("Client non trouvé");
             }
-            else
-            {
-                applicationDbContext.Clients.Remove(client);
-                await  applicationDbContext.SaveChangesAsync();
-            }
+
+            applicationDbContext.Clients.Remove(client);
+            await applicationDbContext.SaveChangesAsync();
         }
     }
 }

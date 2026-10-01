@@ -1,4 +1,4 @@
-﻿using Library_Management.Models;
+using Library_Management.Models;
 
 namespace Library_Management.Service
 {
@@ -6,13 +6,14 @@ namespace Library_Management.Service
     {
         Task<IEnumerable<Emprunt>> ObtenirLesLivresEmpruntersAsync();
 
-        Task<Emprunt> ObtenirLivreEmprunterParIdAsync(Guid Id);
+        Task<Emprunt?> ObtenirLivreEmprunterParIdAsync(Guid Id);
 
         Task LivreEmprunters(Emprunt Emprunt);
 
         Task MettreAjoursLesLivresEprunterAsync(Emprunt emprunt);
 
-        Task SupprimerLesLivresEmprunters(Guid Id);
+        Task RetournerLivreAsync(Guid Id);
 
+        Task SupprimerLesLivresEmprunters(Guid Id);
     }
 }

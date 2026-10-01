@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Librairi_Management.Domain.Models;
-using Library_Management.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Library_Management.Application.AutoMapper.Dto
 {
     public class UpdateLivreEmpruntDto
     {
-        public Guid Id { get; set; }
+        [Required]
         public DateTime DateEmprunt { get; set; }
+        [Required]
         public DateTime DateRetour { get; set; }
+        [Required]
         public Guid LivreId { get; set; }
+        [Required]
         public Guid ClientId { get; set; }
     }
 }

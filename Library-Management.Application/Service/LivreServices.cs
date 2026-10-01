@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Librairi_Management.Domain.Models;
 using Library_Management.Models;
 using Library_Management.Repertory;
 using Library_Management.Service;
@@ -12,10 +8,12 @@ namespace Library_Management.Application.Service
     public class LivreServices:ILivreService
     {
         private readonly ILivreRepertory livreRepertory;
+        private readonly IEmpruntRepertory empruntRepertory;
 
-        public LivreServices(ILivreRepertory livreRepertory)
+        public LivreServices(ILivreRepertory livreRepertory, IEmpruntRepertory empruntRepertory)
         {
             this.livreRepertory = livreRepertory;
+            this.empruntRepertory = empruntRepertory;
         }
 
         public async Task AjouterLivreAsync(Livre Livre)
@@ -30,18 +28,20 @@ namespace Library_Management.Application.Service
 
         public Task<IEnumerable<Livre>> ObtenirLesLivresAsync()
         {
-            var livres = livreRepertory.ObtenirLesLivresAsync();
-            return livres;
+            return livreRepertory.ObtenirLesLivresAsync();
         }
 
-        public async Task<Livre> ObtenirLivreParIdAsync(Guid Id)
+        public Task<Livre?> ObtenirLivreParIdAsync(Guid Id)
         {
-            var livre = await livreRepertory.ObtenirLivreParIdAsync(Id);
-            return livre;
+            return livreRepertory.ObtenirLivreParIdAsync(Id);
         }
 
         public async Task SupprimerLivreAsync(Guid Id)
         {
+            if (await empruntRepertory.LivreEstEmprunteAsync(Id))
+            {
+                throw new RegleMetierException("Impossible de supprimer un livre actuellement emprunté.");
+            }
             await livreRepertory.SupprimerLivreAsync(Id);
         }
     }

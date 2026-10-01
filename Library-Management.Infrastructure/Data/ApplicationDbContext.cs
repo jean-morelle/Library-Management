@@ -1,4 +1,4 @@
-﻿using Librairi_Management.Domain.Models;
+using Librairi_Management.Domain.Models;
 using Library_Management.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,9 +21,10 @@ namespace Library_Management.Data
                   .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Emprunt>()
                 .HasOne(x=>x.Client)
-                .WithMany(x=>x.emprunts)
+                .WithMany(x=>x.Emprunts)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+            modelBuilder.Entity<Emprunt>()
+                .Ignore(e => e.EstRendu);
         }
 
     }

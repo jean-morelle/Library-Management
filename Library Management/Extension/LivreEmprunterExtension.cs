@@ -1,5 +1,3 @@
-﻿using System.Runtime.CompilerServices;
-using Librairi_Management.Domain.Models;
 using Library_Management.Application.AutoMapper.Dto;
 using Library_Management.Models;
 
@@ -7,42 +5,30 @@ namespace Library_Management.Extension
 {
     public static class LivreEmprunterExtension
     {
-     public static IEnumerable<LivreEmpruntReadDto> ConvertToDto(
-     this IEnumerable<Client> clients,
-        IEnumerable<Livre> livres,
-        IEnumerable<Emprunt> emprunts)
+        public static IEnumerable<LivreEmpruntReadDto> ConvertToDto(this IEnumerable<Emprunt> emprunts)
         {
-            var result = from emprunt in emprunts
-                         join client in clients on emprunt.ClientId equals client.Id
-                         join livre in livres on emprunt.LivreId equals livre.Id
-                         select new LivreEmpruntReadDto
-                         {
-                             Id = emprunt.Id,
-                             DateEmprunt = emprunt.DateEmprunt,
-                             DateRetour = emprunt.DateRetour,
-                             NomClient = client.Nom,
-                             Email = client.Email,
-                             Quartier=client.Quartier,
-                             TitleLivre =livre.Titre,
-                             Genre=livre.Genre,
-                             AuteurLivre =livre.Auteur,
-                         };
-
-            return result;
+            return emprunts.Select(emprunt => emprunt.ConvertTo());
         }
-        public static LivreEmpruntReadDto ConvertTo(this Client client, Livre livre, Emprunt emprunt)
+
+        // Le livre et le client doivent avoir été chargés (Include) par le repository
+        public static LivreEmpruntReadDto ConvertTo(this Emprunt emprunt)
         {
             return new LivreEmpruntReadDto
             {
                 Id = emprunt.Id,
                 DateEmprunt = emprunt.DateEmprunt,
                 DateRetour = emprunt.DateRetour,
-                NomClient = client.Nom,
-                Email = client.Email,
-                Quartier = client.Quartier,
-                TitleLivre = livre.Titre,
-                Genre = livre.Genre,
-                AuteurLivre = livre.Auteur,
+                DateRetourEffective = emprunt.DateRetourEffective,
+                EstRendu = emprunt.EstRendu,
+                EnRetard = !emprunt.EstRendu && emprunt.DateRetour.Date < DateTime.Today,
+                LivreId = emprunt.LivreId,
+                TitleLivre = emprunt.Livre?.Titre ?? string.Empty,
+                AuteurLivre = emprunt.Livre?.Auteur ?? string.Empty,
+                Genre = emprunt.Livre?.Genre ?? string.Empty,
+                ClientId = emprunt.ClientId,
+                NomClient = emprunt.Client?.Nom ?? string.Empty,
+                Email = emprunt.Client?.Email ?? string.Empty,
+                Quartier = emprunt.Client?.Quartier ?? string.Empty,
             };
         }
 
@@ -61,7 +47,7 @@ namespace Library_Management.Extension
         {
             emprunt.ClientId = updateLivreEmpruntDto.ClientId;
             emprunt.LivreId = updateLivreEmpruntDto.LivreId;
-            emprunt.DateEmprunt =updateLivreEmpruntDto.DateEmprunt;
+            emprunt.DateEmprunt = updateLivreEmpruntDto.DateEmprunt;
             emprunt.DateRetour = updateLivreEmpruntDto.DateRetour;
         }
     }

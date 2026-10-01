@@ -1,8 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Library_Management.Data;
 using Library_Management.Models;
 using Library_Management.Repertory;
@@ -33,15 +28,33 @@ namespace Library_Management.Infrastructure.Repertory
 
         public async Task<IEnumerable<Emprunt>> ObtenirLesLivresEmpruntersAsync()
         {
-            var emprunt = await applicationDbContext.Emprunts.ToListAsync();
-            return emprunt;
+            return await applicationDbContext.Emprunts
+                .Include(e => e.Livre)
+                .Include(e => e.Client)
+                .OrderByDescending(e => e.DateEmprunt)
+                .ToListAsync();
         }
 
-
-        public async Task<Emprunt> ObtenirLivreEmprunterParIdAsync(Guid Id)
+        public async Task<Emprunt?> ObtenirLivreEmprunterParIdAsync(Guid Id)
         {
-            var emprunt = await applicationDbContext.Emprunts.FirstOrDefaultAsync(e => e.Id == Id);
-            return emprunt;
+            return await applicationDbContext.Emprunts
+                .Include(e => e.Livre)
+                .Include(e => e.Client)
+                .FirstOrDefaultAsync(e => e.Id == Id);
+        }
+
+        public async Task<bool> LivreEstEmprunteAsync(Guid livreId, Guid? empruntExcluId = null)
+        {
+            return await applicationDbContext.Emprunts.AnyAsync(e =>
+                e.LivreId == livreId
+                && e.DateRetourEffective == null
+                && (empruntExcluId == null || e.Id != empruntExcluId));
+        }
+
+        public async Task<bool> ClientAEmpruntEnCoursAsync(Guid clientId)
+        {
+            return await applicationDbContext.Emprunts.AnyAsync(e =>
+                e.ClientId == clientId && e.DateRetourEffective == null);
         }
 
         public async Task SupprimerLesLivresEmprunters(Guid Id)
@@ -51,11 +64,9 @@ namespace Library_Management.Infrastructure.Repertory
             {
                 throw new KeyNotFoundException("Emprunt non trouvé");
             }
-            else
-            {
-                applicationDbContext.Emprunts.Remove(emprunt);
-                await applicationDbContext.SaveChangesAsync();
-            }
+
+            applicationDbContext.Emprunts.Remove(emprunt);
+            await applicationDbContext.SaveChangesAsync();
         }
     }
 }

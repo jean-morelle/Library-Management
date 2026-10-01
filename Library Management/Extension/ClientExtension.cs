@@ -1,4 +1,4 @@
-﻿using Librairi_Management.Domain.Models;
+using Librairi_Management.Domain.Models;
 using Library_Management.Application.AutoMapper.Dto;
 
 namespace Library_Management.Extension
@@ -7,16 +7,7 @@ namespace Library_Management.Extension
     {
         public static IEnumerable<ClientReadDto> ConvertToDto(this IEnumerable<Client> clients)
         {
-            var result = from client in clients
-                         select new ClientReadDto
-                         {
-                             Id = client.Id,
-                             Nom = client.Nom,
-                             NumeroTelephone = client.NumeroTelephone,
-                             Email = client.Email,
-                             Quartier = client.Quartier,
-                         };
-            return result;
+            return clients.Select(client => client.ConverToClient());
         }
 
         public static ClientReadDto ConverToClient (this Client client)
@@ -35,22 +26,19 @@ namespace Library_Management.Extension
         {
             return new Client
             {
-                Nom = addClientDto.Nom,
-                NumeroTelephone = addClientDto.NumeroTelephone,
-                Email = addClientDto.Email,
-                Quartier = addClientDto.Quartier,
+                Nom = addClientDto.Nom.Trim(),
+                NumeroTelephone = addClientDto.NumeroTelephone.Trim(),
+                Email = addClientDto.Email.Trim(),
+                Quartier = addClientDto.Quartier.Trim(),
             };
         }
 
         public static void UpdateClientDto(this Client client,UpdateClientDto updateClientDto)
         {
-
-            client.Id = updateClientDto.Id;
-            client.Nom = updateClientDto.Nom;
-            client.NumeroTelephone = updateClientDto.NumeroTelephone;
-            client.Email = updateClientDto.Email;
-            client.Quartier = updateClientDto.Quartier;
-
+            client.Nom = updateClientDto.Nom.Trim();
+            client.NumeroTelephone = updateClientDto.NumeroTelephone.Trim();
+            client.Email = updateClientDto.Email.Trim();
+            client.Quartier = updateClientDto.Quartier.Trim();
         }
     }
 }

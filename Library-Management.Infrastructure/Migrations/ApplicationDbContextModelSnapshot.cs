@@ -36,6 +36,10 @@ namespace LibraryManagement.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NumeroTelephone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Quartier")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -83,6 +87,9 @@ namespace LibraryManagement.Infrastructure.Migrations
                     b.Property<DateTime>("DateRetour")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("DateRetourEffective")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("LivreId")
                         .HasColumnType("uniqueidentifier");
 
@@ -121,7 +128,7 @@ namespace LibraryManagement.Infrastructure.Migrations
             modelBuilder.Entity("Library_Management.Models.Emprunt", b =>
                 {
                     b.HasOne("Librairi_Management.Domain.Models.Client", "Client")
-                        .WithMany("emprunts")
+                        .WithMany("Emprunts")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -139,7 +146,7 @@ namespace LibraryManagement.Infrastructure.Migrations
 
             modelBuilder.Entity("Librairi_Management.Domain.Models.Client", b =>
                 {
-                    b.Navigation("emprunts");
+                    b.Navigation("Emprunts");
                 });
 
             modelBuilder.Entity("Library_Management.Models.Livre", b =>

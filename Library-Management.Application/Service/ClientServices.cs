@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Librairi_Management.Domain.Interface;
 using Librairi_Management.Domain.Models;
+using Library_Management.Repertory;
 
 namespace Library_Management.Application.Service
 {
     public class ClientServices: IClientServices
     {
         private readonly IClientRepertory clientRepertory;
+        private readonly IEmpruntRepertory empruntRepertory;
 
-        public ClientServices(IClientRepertory clientRepertory)
+        public ClientServices(IClientRepertory clientRepertory, IEmpruntRepertory empruntRepertory)
         {
             this.clientRepertory = clientRepertory;
+            this.empruntRepertory = empruntRepertory;
         }
 
         public async Task AjouterClientAsync(Client client)
@@ -27,20 +25,22 @@ namespace Library_Management.Application.Service
             await clientRepertory.MettreAjoursClientAsync(client);
         }
 
-        public async Task<Client> ObtenirClientParId(Guid Id)
+        public Task<Client?> ObtenirClientParId(Guid Id)
         {
-            var client = await clientRepertory.ObtenirClientParId(Id);
-            return client;
+            return clientRepertory.ObtenirClientParId(Id);
         }
 
-        public async Task<IEnumerable<Client>> ObtenirTousLesClients()
+        public Task<IEnumerable<Client>> ObtenirTousLesClients()
         {
-            var client = await clientRepertory.ObtenirTousLesClients();
-            return client;
+            return clientRepertory.ObtenirTousLesClients();
         }
 
         public async Task SupprimerClientAsync(Guid Id)
         {
+            if (await empruntRepertory.ClientAEmpruntEnCoursAsync(Id))
+            {
+                throw new RegleMetierException("Impossible de supprimer un client qui a des emprunts en cours.");
+            }
             await clientRepertory.SupprimerClientAsync(Id);
         }
     }

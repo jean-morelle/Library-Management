@@ -1,8 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Library_Management.Data;
 using Library_Management.Models;
 using Library_Management.Repertory;
@@ -31,16 +26,20 @@ namespace Library_Management.Infrastructure.Repertory
             await applicationDbContext.SaveChangesAsync();
         }
 
+        // Les emprunts sont chargés pour pouvoir calculer la disponibilité du livre
         public async Task<IEnumerable<Livre>> ObtenirLesLivresAsync()
         {
-            var livres = await applicationDbContext.Livres.ToListAsync();
-            return livres;
+            return await applicationDbContext.Livres
+                .Include(l => l.Emprunts)
+                .OrderBy(l => l.Titre)
+                .ToListAsync();
         }
 
-        public Task<Livre> ObtenirLivreParIdAsync(Guid Id)
+        public async Task<Livre?> ObtenirLivreParIdAsync(Guid Id)
         {
-            var livre = applicationDbContext.Livres.FirstOrDefaultAsync(l => l.Id == Id);
-            return livre;
+            return await applicationDbContext.Livres
+                .Include(l => l.Emprunts)
+                .FirstOrDefaultAsync(l => l.Id == Id);
         }
 
         public async Task SupprimerLivreAsync(Guid id)

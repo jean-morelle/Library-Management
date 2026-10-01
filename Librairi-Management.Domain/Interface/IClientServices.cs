@@ -10,7 +10,7 @@ namespace Librairi_Management.Domain.Interface
     public interface IClientServices
     {
         Task<IEnumerable<Client>> ObtenirTousLesClients();
-        Task<Client> ObtenirClientParId(Guid Id);
+        Task<Client?> ObtenirClientParId(Guid Id);
         Task AjouterClientAsync(Client client);
         Task SupprimerClientAsync(Guid Id);
         Task MettreAjoursClientAsync(Client client);
